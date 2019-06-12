@@ -1,0 +1,39 @@
+node {
+	stage('Build') {
+		sh ('echo "Hello World"')
+        sh ('''
+            echo "Multiline shell steps"
+            ls -lah
+            '''
+        )
+	}
+	stage('Unit Testing') {
+		echo 'Unit Testing With JUnit'
+	}
+	stage('Deploy') {
+        timeout(20) {
+        	node{
+        	    try {
+        	        println ("Try to Deploy")
+        	    }catch(Exception ex){
+        	        echo "Deploy failed because of ${ex.getmessage()}"
+        	        retry (2) {
+        	            prinln "Try to Deploy"
+        	            currentBuild.result = "UNSTABLE"
+        	        }
+        	    }
+        	}
+    	}
+	}
+	parallel UI_Testing_Chrome : {
+		stage('Selenium Chrome') {
+			echo "Chrome Tests With WebDriver"
+            sleep 30
+		}
+	}, UI_Testing_Firefox : {
+		stage('Selenium Firefox') {
+			echo "Chrome Tests With WebDriver"
+            sleep 30
+		}
+	}
+}
