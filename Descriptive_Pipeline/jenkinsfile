@@ -19,7 +19,7 @@ pipeline {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
                     retry(3) {
-                        prinln "Try to Deploy"
+                        println "Try to Deploy"
                     }
                 }
             }
