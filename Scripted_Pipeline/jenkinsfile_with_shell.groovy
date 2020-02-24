@@ -22,7 +22,7 @@ node {master} {
 	stage ('Compilation & Unit Testing') {
 		try{
 			println "Application compilation starting"
-			sh(script : "${workspace}/${path}/build.sh")
+			sh(script : "${workspace}/${path}/compile.sh")
 			println "Application compilation completed"
 		} catch (Exception err){
 			error("Compilation failed due to: ${err.message}")
